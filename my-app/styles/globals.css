@@ -1,0 +1,388 @@
+
+
+/* --- CORE VARIABLES --- */
+:root {
+  --acid: #ccff00; /* Marathon Acid Green */
+  --black: #050505;
+  --panel: #111;
+  --border: #333;
+  --mono-font: 'Share Tech Mono', monospace;
+  --display-font: 'Oswald', sans-serif;
+}
+
+/* --- BASE SETTINGS --- */
+body {
+  background-color: var(--black);
+  color: #fff;
+  font-family: var(--display-font);
+  overflow-x: hidden;
+}
+
+/* --- CRT SCANLINE EFFECT --- */
+.scanline {
+  width: 100%;
+  height: 100px;
+  z-index: 9999;
+  background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(204, 255, 0, 0.1) 50%, rgba(0,0,0,0) 100%);
+  opacity: 0.1;
+  position: fixed;
+  bottom: 100%;
+  animation: scanline 10s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes scanline {
+  0% { bottom: 100%; }
+  100% { bottom: -100%; }
+}
+
+/* --- ANIMATED GRID BACKGROUND --- */
+.grid-bg {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  z-index: -1;
+  background: var(--black);
+  perspective: 1000px;
+}
+
+.grid-lines {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  transform: scale(1.5);
+}
+
+/* --- TYPOGRAPHY --- */
+h1, h2, h3, h4 {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 1.5rem;
+}
+
+h1 {
+  font-size: 5rem;
+  line-height: 0.9;
+  color: transparent;
+  -webkit-text-stroke: 2px #fff; /* Hollow text style */
+}
+
+p, .text-muted {
+  font-family: var(--mono-font);
+  color: #888 !important;
+  letter-spacing: 0px;
+}
+
+/* --- BRUTALIST CARDS --- */
+.card {
+  background: var(--black);
+  border: 1px solid #333;
+  border-radius: 0 !important; /* KILL ROUNDED CORNERS */
+  position: relative;
+  transition: all 0.1s;
+}
+
+.card::before {
+  content: "DATA_NV-01";
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-family: var(--mono-font);
+  font-size: 10px;
+  color: var(--acid);
+  opacity: 0.5;
+}
+
+.card:hover {
+  border-color: var(--acid);
+  box-shadow: 5px 5px 0px var(--acid); /* Hard shadow, no blur */
+  transform: translate(-2px, -2px);
+}
+
+.card-img-top {
+  border-radius: 0 !important;
+  filter: grayscale(100%) contrast(1.2);
+  transition: filter 0.3s;
+}
+
+.card:hover .card-img-top {
+  filter: grayscale(0%) contrast(1);
+}
+
+/* --- INPUTS: THE "TERMINAL" LOOK --- */
+.form-control {
+  background: #000;
+  border: 1px solid #444;
+  border-radius: 0 !important;
+  color: var(--acid) !important;
+  font-family: var(--mono-font);
+  padding: 15px;
+  text-transform: none;
+}
+
+.form-control:focus {
+  background: #000;
+  border-color: var(--acid);
+  box-shadow: none;
+  border-left: 5px solid var(--acid); /* Thick indicator on focus */
+}
+
+.form-control::placeholder {
+  color: #444;
+  text-transform: none;
+}
+
+/* --- BUTTONS: RAW INDUSTRIAL --- */
+.btn-primary, .btn-outline-light, .btn-outline-primary, .btn-success {
+  border-radius: 0 !important;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-family: var(--display-font);
+  letter-spacing: 1px;
+  padding: 12px 30px; /* Uniform size for all */
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-width: 1px;
+}
+
+/* Primary (Acid Green) */
+.btn-primary, .btn-success {
+  background: var(--acid);
+  color: #000;
+  border-color: var(--acid);
+}
+.btn-primary:hover, .btn-success:hover {
+  background: #fff;
+  color: #000;
+  border-color: #fff;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+}
+
+/* Outline Primary (For Favourites) */
+.btn-outline-primary {
+  background: transparent;
+  color: var(--acid);
+  border-color: var(--acid);
+}
+.btn-outline-primary:hover {
+  background: var(--acid);
+  color: #000;
+  box-shadow: 0 0 15px var(--acid);
+}
+
+/* Outline Light (Login/Back) */
+.btn-outline-light {
+  background: transparent;
+  color: #fff;
+  border-color: #fff;
+}
+.btn-outline-light:hover {
+  background: #fff;
+  color: #000;
+  border-color: #fff;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+/* --- NAVBAR: HEADS UP DISPLAY --- */
+.navbar {
+  background: rgba(0, 0, 0, 0.9) !important;
+  border-bottom: 1px solid #333;
+  font-family: var(--mono-font);
+  text-transform: uppercase;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  color: var(--acid) !important;
+  font-family: var(--display-font);
+  font-size: 1.8rem;
+}
+
+.nav-link {
+  color: #666 !important;
+  position: relative;
+}
+
+.nav-link:hover, .nav-link.active {
+  color: #fff !important;
+}
+
+.nav-link.active::before {
+  content: '>';
+  color: var(--acid);
+  margin-right: 5px;
+}
+
+.dropdown-menu {
+  background: var(--black);
+  border: 1px solid var(--border);
+  border-radius: 0;
+}
+.dropdown-item {
+  color: #fff;
+  font-family: var(--mono-font);
+}
+.dropdown-item:hover {
+  background: var(--acid);
+  color: #000;
+}
+
+/* --- SCROLLBAR --- */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #000;
+}
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border: 1px solid #000;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--acid);
+}
+
+/* --- GLITCH TEXT EFFECT --- */
+.glitch {
+  position: relative;
+  color: #fff;
+}
+.glitch::before, .glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--black);
+}
+.glitch::before {
+  left: 2px;
+  text-shadow: -1px 0 #ff00c1;
+  clip: rect(44px, 450px, 56px, 0);
+  animation: glitch-anim 5s infinite linear alternate-reverse;
+}
+.glitch::after {
+  left: -2px;
+  text-shadow: -1px 0 #00fff9;
+  clip: rect(44px, 450px, 56px, 0);
+  animation: glitch-anim2 5s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim {
+  0% { clip: rect(30px, 9999px, 10px, 0); }
+  20% { clip: rect(80px, 9999px, 90px, 0); }
+  40% { clip: rect(10px, 9999px, 50px, 0); }
+  60% { clip: rect(40px, 9999px, 20px, 0); }
+  80% { clip: rect(70px, 9999px, 100px, 0); }
+  100% { clip: rect(20px, 9999px, 60px, 0); }
+}
+@keyframes glitch-anim2 {
+  0% { clip: rect(10px, 9999px, 80px, 0); }
+  20% { clip: rect(90px, 9999px, 10px, 0); }
+  40% { clip: rect(30px, 9999px, 10px, 0); }
+  60% { clip: rect(60px, 9999px, 70px, 0); }
+  80% { clip: rect(20px, 9999px, 40px, 0); }
+  100% { clip: rect(80px, 9999px, 30px, 0); }
+}
+
+/* --- LIGHT MODE ("DOSSIER" LOOK) --- */
+[data-theme='light'] {
+  --acid: #0000ff; /* Blue Ink */
+  --black: #f4f4f4; /* Paper White */
+  --panel: #fff;
+  --border: #000;
+  color: #000;
+}
+
+[data-theme='light'] body {
+  background-color: var(--black);
+  color: #000;
+}
+
+[data-theme='light'] .card, 
+[data-theme='light'] .navbar,
+[data-theme='light'] .dropdown-menu {
+  background: #fff !important;
+  border: 1px solid #000;
+  color: #000;
+}
+
+[data-theme='light'] .form-control {
+  background: #fff;
+  border: 2px solid #000;
+  color: #000 !important;
+}
+
+[data-theme='light'] h1, [data-theme='light'] h2 {
+  -webkit-text-stroke: 1px #000;
+  color: transparent;
+}
+
+[data-theme='light'] .btn-primary, 
+[data-theme='light'] .btn-success {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+}
+
+[data-theme='light'] .btn-primary:hover {
+  background: #0000ff;
+  color: #fff;
+  border-color: #0000ff;
+}
+
+[data-theme='light'] .btn-outline-light {
+  color: #000;
+  border-color: #000;
+}
+[data-theme='light'] .btn-outline-light:hover {
+  background: #000;
+  color: #fff;
+}
+
+[data-theme='light'] .grid-lines {
+  background-image: 
+    linear-gradient(#0000001a 1px, transparent 1px),
+    linear-gradient(90deg, #0000001a 1px, transparent 1px);
+}
+
+[data-theme='light'] .glitch::before, 
+[data-theme='light'] .glitch::after {
+  background: #fff;
+}
+
+/* LIGHT MODE OVERRIDES */
+[data-theme='light'] {
+  /* ... existing variables ... */
+  --acid: #0000ff;
+  --black: #f4f4f4;
+  --panel: #fff;
+  --border: #000;
+  color: #000;
+}
+
+/* FIX: Make Nav Links Black on Hover in Light Mode */
+[data-theme='light'] .nav-link:hover, 
+[data-theme='light'] .nav-link.active {
+  color: #000 !important;
+  text-shadow: none; /* Remove glow in light mode for cleaner look */
+}
+
+[data-theme='light'] .navbar-brand {
+  color: #000 !important;
+}
+
+/* FIX: Ensure links in cards/audit logs are dark */
+[data-theme='light'] a {
+  color: #000;
+}
+[data-theme='light'] a:hover {
+  color: var(--acid);
+}

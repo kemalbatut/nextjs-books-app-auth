@@ -1,17 +1,81 @@
 import Link from 'next/link';
-import { Navbar, Nav, Container } from 'react-bootstrap';
+import { Navbar, Nav, Container, NavDropdown, Button } from 'react-bootstrap';
+import { useRouter } from 'next/router';
+import { readToken, removeToken } from '@/lib/authenticate';
+import { useAtom } from 'jotai';
+import { favouritesAtom } from '@/store';
+import { useEffect, useState } from 'react';
 
 export default function MainNav() {
+  const router = useRouter();
+  const token = readToken();
+  const [favouritesList, setFavouritesList] = useAtom(favouritesAtom);
+  const [theme, setTheme] = useState('dark');
+
+  // Toggle Theme Function
+  const toggleTheme = () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+    document.documentElement.setAttribute('data-theme', newTheme);
+  };
+
+  function logout() {
+    setFavouritesList([]); 
+    removeToken();
+    router.push('/login');
+  }
+
   return (
-    <Navbar bg="light" expand="lg" className="mb-4">
+    <Navbar expand="lg" className="fixed-top mb-4 shadow-sm" variant={theme === 'dark' ? 'dark' : 'light'}>
       <Container>
-        <Navbar.Brand as={Link} href="/">Open Library</Navbar.Brand>
+        <Navbar.Brand as={Link} href="/">OPEN LIBRARY</Navbar.Brand>
         <Navbar.Toggle aria-controls="mainnav" />
         <Navbar.Collapse id="mainnav">
           <Nav className="me-auto">
-            <Nav.Link as={Link} href="/about">About</Nav.Link>
-            <Nav.Link as={Link} href="/favourites">Favourites</Nav.Link>
-            {/* NOTE: Do not include a "Books" link per A2 instructions */}
+            <Nav.Link as={Link} href="/browse" active={router.pathname === "/browse"}>
+               &gt; BROWSE_
+            </Nav.Link>
+            <Nav.Link as={Link} href="/about" active={router.pathname === "/about"}>
+               &gt; INFO
+            </Nav.Link>
+            {token && (
+              <Nav.Link as={Link} href="/favourites" active={router.pathname === "/favourites"}>
+                 &gt; SAVED_DATA
+              </Nav.Link>
+            )}
+          </Nav>
+          
+          <Nav className="align-items-center gap-3">
+            {/* Theme Toggle */}
+            <div 
+              onClick={toggleTheme} 
+              style={{ 
+                cursor: 'pointer', 
+                border: '1px solid var(--border)', 
+                padding: '5px 10px',
+                fontSize: '12px',
+                fontFamily: 'var(--mono-font)'
+              }}
+            >
+              DISPLAY: {theme.toUpperCase()}
+            </div>
+
+            {token ? (
+              <NavDropdown title={token.userName} id="basic-nav-dropdown" align="end">
+                <NavDropdown.Item as={Link} href="/favourites">My List</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
+              </NavDropdown>
+            ) : (
+              <div className="d-flex gap-2">
+                <Link href="/login" passHref legacyBehavior>
+                   <Button variant="outline-light" size="sm">Login</Button>
+                </Link>
+                <Link href="/register" passHref legacyBehavior>
+                   <Button variant="primary" size="sm">Sign Up</Button>
+                </Link>
+              </div>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>

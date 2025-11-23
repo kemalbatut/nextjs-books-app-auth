@@ -1,2 +1,6 @@
 import { atom } from 'jotai';
-export const favouritesAtom = atom([]); // array of workIds (strings)
+import { atomWithStorage } from 'jotai/utils';
+
+export const favouritesAtom = atom([]);
+export const searchHistoryAtom = atomWithStorage('search_history', []); // Persist in localStorage
+export const recentlyViewedAtom = atomWithStorage('view_history', []); // Persist recent books
